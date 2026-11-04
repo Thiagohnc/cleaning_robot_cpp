@@ -43,8 +43,56 @@ void question1(void) {
     }
 }
 
+void question2(void) {
+    const double p = 0.2;
+
+    for(int k: {0, 1, 2, 4, 6, 10}) {
+        for(double gamma: {0.7, 0.99}) {
+            CleaningEnv env(SMALL_ROOM, p, k);
+            TabularModel model(env);
+            cout << "Value Iteration - k = " << k << ", gamma = " << gamma << ": ";
+            ValueIteration value_iter(model, gamma);
+            std::vector<int> policy = tabulate(model, value_iter);
+            std::vector<double> v = policy_evaluation(model, policy, gamma, 1e-9, true);
+            ofstream outfile;
+            outfile.open("outputs/q2/values/valueiter_" + to_string(k) + "_" + to_string(gamma));
+            for(double val: v) {
+                outfile << val << '\n';
+            }
+            outfile.close();
+            outfile.open("outputs/q2/policy/valueiter_" + to_string(k) + "_" + to_string(gamma));
+            for(double action: policy) {
+                outfile << action << '\n';
+            }
+            outfile.close();
+        }
+    }
+
+    for(int k: {0, 1, 2, 4, 6, 10}) {
+        for(double gamma: {0.7, 0.99}) {
+            CleaningEnv env(SMALL_ROOM, p, k);
+            TabularModel model(env);
+            cout << "Policy Iteration - k = " << k << ", gamma = " << gamma << ": ";
+            PolicyIteration policy_iter(model, gamma);
+            std::vector<int> policy = tabulate(model, policy_iter);
+            std::vector<double> v = policy_evaluation(model, policy, gamma, 1e-9, true);
+            ofstream outfile;
+            outfile.open("outputs/q2/values/policyiter_" + to_string(k) + "_" + to_string(gamma));
+            for(double val: v) {
+                outfile << val << '\n';
+            }
+            outfile.close();
+            outfile.open("outputs/q2/policy/policyiter_" + to_string(k) + "_" + to_string(gamma));
+            for(double action: policy) {
+                outfile << action << '\n';
+            }
+            outfile.close();
+        }
+    }
+}
+
 int main(int argc, char** argv) {
-    question1();
+    question2();
     exit(0);
 
     CleaningEnv env(SMALL_ROOM, 0.2, 2);

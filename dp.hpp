@@ -15,7 +15,8 @@ public:
 };
 
 std::vector<int> tabulate(const TabularModel& model, const PolicyMixin& policy);
-std::vector<double> policy_evaluation(const TabularModel& model, const std::vector<int>& policy, double gamma);
+std::vector<double> policy_evaluation(const TabularModel& model, const std::vector<int>& policy, double gamma, double tol=1e-9);
+std::vector<double> policy_evaluation(const TabularModel& model, const std::vector<std::vector<double>>& policy, double gamma, double tol=1e-9);
 void policy_improvement(const TabularModel& model, std::vector<int>& policy, const std::vector<double>& v, double gamma);
 
 class ValueIteration : public TabularPolicy {

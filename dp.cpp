@@ -182,4 +182,22 @@ vector<int> PolicyIteration::_learn(const TabularModel& model, double gamma) {
     return policy;
 }
 
+vector<double> simulate(const CleaningEnv& env, const vector<int> &policy, int n_steps, int rounds, int seed) {
+    vector<double> rws;
+    RNG rng(seed);
+
+    for(int r = 0; r < rounds; r++) {
+        double total_r = 0;
+        State state = env.random_init(rng);
+        for(int step = 0; step < n_steps; step++) {
+            int s = state_index(env, state);
+            int a = policy[s];
+            state = env.next_state_sample(state, a, rng);
+            total_r += env.reward(state);
+        }
+        rws.push_back(total_r / n_steps);
+    }
+    return rws;
+}
+
 } // namespace cleaning_robot

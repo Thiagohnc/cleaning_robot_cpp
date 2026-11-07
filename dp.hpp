@@ -18,6 +18,7 @@ std::vector<int> tabulate(const TabularModel& model, const PolicyMixin& policy);
 std::vector<double> policy_evaluation(const TabularModel& model, const std::vector<int>& policy, double gamma, double tol=1e-9, bool silent=false);
 std::vector<double> policy_evaluation(const TabularModel& model, const std::vector<std::vector<double>>& policy, double gamma, double tol=1e-9, bool silent=false);
 void policy_improvement(const TabularModel& model, std::vector<int>& policy, const std::vector<double>& v, double gamma);
+std::vector<double> simulate(const CleaningEnv& env, const std::vector<int> &policy, int n_steps=1000000, int rounds=50, int seed=42);
 
 class ValueIteration : public TabularPolicy {
 public:
